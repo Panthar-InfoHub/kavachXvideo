@@ -1,9 +1,16 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.DATABASE_URL || 'mongodb://localhost:27017/kavach';
-
-if (!MONGODB_URI) {
-  throw new Error('Please define the DATABASE_URL environment variable inside .env.local');
+/**
+ * Read at call time, not at import time: the worker loads .env.local after this
+ * module has already been evaluated (imports are hoisted), so a top-level read
+ * would silently fall back to localhost.
+ */
+function getMongoUri() {
+  const uri = process.env.DATABASE_URL;
+  if (!uri) {
+    throw new Error('Please define the DATABASE_URL environment variable inside .env.local');
+  }
+  return uri;
 }
 
 /**
@@ -29,8 +36,9 @@ async function connectToDatabase() {
       bufferCommands: false,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      console.log('Successfully connected to MongoDB.');
+    const uri = getMongoUri();
+    cached.promise = mongoose.connect(uri, opts).then((mongoose) => {
+      console.log(`Successfully connected to MongoDB (${mongoose.connection.host}/${mongoose.connection.name}).`);
       return mongoose;
     }).catch(error => {
       console.error('Error connecting to MongoDB', error);

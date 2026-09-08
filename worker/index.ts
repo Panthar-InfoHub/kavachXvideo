@@ -1,5 +1,4 @@
-import dotenv from 'dotenv';
-dotenv.config({ path: '.env.local' });
+import './env';
 
 import { Worker, Job } from 'bullmq';
 import IORedis from 'ioredis';
@@ -13,6 +12,7 @@ import { Video } from '../src/models/Video';
 import { ProcessingJob } from '../src/models/ProcessingJob';
 
 const REDIS_URL = process.env.QUEUE_URL || 'redis://localhost:6379';
+const QUEUE_PREFIX = process.env.QUEUE_PREFIX || 'bull';
 const connection = new IORedis(REDIS_URL, { maxRetriesPerRequest: null });
 
 async function processVideo(job: Job) {
@@ -117,7 +117,7 @@ async function processVideo(job: Job) {
   }
 }
 
-const worker = new Worker('video-processing', processVideo, { connection });
+const worker = new Worker('video-processing', processVideo, { connection, prefix: QUEUE_PREFIX });
 
 worker.on('completed', job => {
   console.log(`Job ${job.id} completed successfully`);
@@ -128,3 +128,6 @@ worker.on('failed', (job, err) => {
 });
 
 console.log('Twelve Labs Worker is running and listening for jobs...');
+console.log(`  redis   : ${REDIS_URL.replace(/\/\/[^@]*@/, '//<creds>@')} (prefix "${QUEUE_PREFIX}")`);
+console.log(`  mongo   : ${(process.env.DATABASE_URL || 'MISSING').replace(/\/\/[^@]*@/, '//<creds>@')}`);
+console.log(`  tl index: ${process.env.TWELVE_LABS_INDEX_ID || 'MISSING'}`);
