@@ -82,10 +82,10 @@ export default function DashboardPage() {
 
   return (
     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.25rem', marginBottom: '2.5rem' }}>
         <div>
-          <h1 style={{ fontSize: '2rem', fontWeight: 600, marginBottom: '0.5rem' }}>Operations Dashboard</h1>
-          <p style={{ color: 'var(--text-secondary)' }}>Monitor and search across all processed CCTV footage.</p>
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 600, marginBottom: '0.35rem' }}>Operations Dashboard</h1>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>Monitor and search across all processed CCTV footage.</p>
         </div>
         <Link href="/upload" className="btn-primary">
           <UploadCloud size={18} />
@@ -94,7 +94,7 @@ export default function DashboardPage() {
       </header>
 
       {/* Stats Row */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: '3rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.25rem', marginBottom: '2.5rem' }}>
         <StatCard title="Total Videos" value={stats.totalVideos.toString()} icon={<Activity size={24} color="var(--accent-color)" />} loading={loading} />
         <StatCard title="Hours Processed" value={stats.hoursProcessed} icon={<Clock size={24} color="var(--text-secondary)" />} loading={loading} />
         <StatCard title="Active Jobs" value={stats.activeJobs.toString()} icon={<Activity size={24} color="var(--accent-color)" />} loading={loading} />
