@@ -120,7 +120,7 @@ export default function SingleVideoSearch({ videoId, filename, storagePath }: Si
 
   return (
     <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-      <header style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <header style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <h1 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '0.25rem', wordBreak: 'break-all' }}>{filename}</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>AI-Powered Incident Detection & Clip Extraction</p>
@@ -158,6 +158,8 @@ export default function SingleVideoSearch({ videoId, filename, storagePath }: Si
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '0.75rem',
           fontSize: '0.875rem',
           fontWeight: 600,
         }}>
@@ -213,7 +215,7 @@ export default function SingleVideoSearch({ videoId, filename, storagePath }: Si
       </div>
 
       {/* Search Bar */}
-      <form onSubmit={handleSearch} style={{ display: 'flex', gap: '0.75rem', marginBottom: '2rem' }}>
+      <form onSubmit={handleSearch} style={{ display: 'flex', gap: '0.75rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
         <div style={{ flexGrow: 1, position: 'relative' }}>
           <Search size={18} color="var(--text-secondary)" style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
           <input
